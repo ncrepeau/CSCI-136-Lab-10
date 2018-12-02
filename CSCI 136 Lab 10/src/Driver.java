@@ -23,23 +23,46 @@ public class Driver {
 		readInCoyote(myCoyoteScanner);
 		Sorting mySort = new Sorting();
 		String[] array = new String[2084];
-		for(int i = 0; i<bitterrootArray.size(); i++) {
+		for (int i = 0; i < bitterrootArray.size(); i++) {
 			array[i] = bitterrootArray.get(i);
 		}
 		mySort.selectionSort(array);
-		for(int i = 0; i < array.length; i++) {
-			System.out.println(array[i]);
+//		for (int i = 0; i < array.length; i++) {
+//			System.out.println(array[i]);
+//		}
+		Map<String, Integer> wordCount = new HashMap<String, Integer>();
+		for (int i = 0; i < array.length; i++) {
+			String s = array[i];
+			if (wordCount.keySet().contains(s)) {
+				int count = wordCount.get(s) + 1;
+				wordCount.put(s, count);
+			} else {
+				wordCount.put(s, 1);
+			}
 		}
+		Integer freq = null;
+		String mostFreq = null;
+		for(String s : wordCount.keySet()) {
+			int i = wordCount.get(s);
+			if(freq == null) {
+				freq = i;
+			}
+			if(i > freq) {
+				freq = i;
+				mostFreq = s;
+			}
+		}
+		System.out.println("The most occuring word \"" + mostFreq + "\" occured " + freq + " times");
 
 		Scanner msc = new Scanner(System.in);
 		System.out.println("Would you like to search for a certian words frequency? Y/N");
 		String ans = msc.nextLine();
 		while (ans.equals("Y")) {
 			System.out.println("What word would you like to search for?");
-			String word = msc.nextLine();
-			word = word.toLowerCase();
-			int count = search(bitterrootArray, word);
-			System.out.println(word + ": " + count);
+			String target = msc.nextLine();
+			target = target.toLowerCase();
+			int count = search(bitterrootArray, target);
+			System.out.println(target + ": " + count);
 			System.out.println("Would you like to search for another word? Y/N");
 			ans = msc.nextLine();
 		}
